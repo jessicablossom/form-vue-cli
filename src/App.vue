@@ -7,12 +7,30 @@
       <input v-model="inputEmail" type="text" />
       <span>Age:</span>
       <input v-model="inputAge" type="number" />
-      <span>Are you Coder Alumni?:</span>
-      <span class="no-flex">
-        <input v-model="inputCoder" type="checkbox" />Yes</span
+      <span>Country:</span>
+      <select
+        v-model="inputCountry"
+        class="input-select"
+        aria-label="Default select example"
       >
+        <option selected></option>
+        <option value="Argentina">Argentina</option>
+        <option value="Uruwhy">Uruwhy</option>
+        <option value="Brasil">Brasil</option>
+      </select>
+
+      <span>What social media do you have?</span>
+      <span class="sm-box">
+        <input v-model="inputSocial" value="Facebook" type="checkbox" />Facebook
+        <input
+          v-model="inputSocial"
+          value="Instagram"
+          type="checkbox"
+        />Instagram
+        <input v-model="inputSocial" value="Twitter" type="checkbox" />Twitter
+      </span>
       <span>What is your gender?</span>
-      <span class="column">
+      <span class="sm-box">
         <input
           v-model="inputGender"
           type="radio"
@@ -42,9 +60,9 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
-
               <th>Age</th>
-              <th>Coder?</th>
+              <th>Country</th>
+              <th>Social</th>
               <th>Gender</th>
             </tr>
           </thead>
@@ -53,8 +71,8 @@
               <th>{{ user.name }}</th>
               <th>{{ user.email }}</th>
               <th>{{ user.age }}</th>
-              <th v-if="user.coder">Yes</th>
-              <th v-else>No</th>
+              <th>{{ user.country }}</th>
+              <th>{{ user.social }}</th>
               <th>{{ user.gender }}</th>
             </tr>
           </tbody>
@@ -71,25 +89,34 @@ export default {
 
   data() {
     return {
+      inputName: "",
+      inputEmail: "",
+      inputAge: "",
+      inputCountry: "",
+      inputSocial: [],
+      inputGender: "",
+
       users: [
         {
           name: "",
           email: "",
           age: "",
-          coder: "",
+          country: "",
+          social: [],
           gender: "",
         },
       ],
     };
   },
   methods: {
-    data() {},
     addUser(event) {
       event.preventDefault();
       const newInfo = {
         name: this.inputName,
+        email: this.inputEmail,
         age: this.inputAge,
-        coder: this.inputCoder,
+        country: this.inputCountry,
+        social: this.inputSocial,
         gender: this.inputGender,
       };
       this.users.push(newInfo);
@@ -114,17 +141,21 @@ input {
 input:focus {
   outline: none;
 }
+.input-select {
+  height: 30px;
+}
 span {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 .table {
   text-align: center;
   display: flex;
   flex-direction: column;
   margin: auto;
-  width: 60vw;
+  width: 95vw;
   color: #2c3e50;
 }
 
@@ -158,10 +189,10 @@ span {
   margin-top: 20px;
   align-self: end;
 }
-.no-flex {
+.sm-box {
   display: flex;
-  align-items: left;
-  justify-content: space-around;
-  width: 70px;
+  align-items: center;
+  width: 70%;
+  margin: auto;
 }
 </style>
