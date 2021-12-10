@@ -3,7 +3,6 @@
     <v-app-bar app color="#4834d4" dark>
       <h1>Form</h1>
     </v-app-bar>
-
     <v-main>
       <v-form
         ref="login"
@@ -41,20 +40,20 @@
           <span>What is your social media?</span>
           <v-row>
             <v-checkbox
+              :rules="socialRules"
               v-model="inputSocial"
-              :rules="[(v) => !!v || 'Must select one!']"
               label="Facebook"
               required
             ></v-checkbox>
             <v-checkbox
+              :rules="socialRules"
               v-model="inputSocial"
-              :rules="[(v) => !!v || 'Must select one!']"
               label="Instagram"
               required
             ></v-checkbox>
             <v-checkbox
+              :rules="socialRules"
               v-model="inputSocial"
-              :rules="[(v) => !!v || 'Must select one!']"
               label="Twitter"
               required
             ></v-checkbox>
@@ -111,11 +110,13 @@ export default {
   data() {
     return {
       valid: false,
+      select: null,
+      checkbox: false,
       inputName: "",
       inputEmail: "",
       inputAge: "",
       inputCountry: "",
-      inputSocial: [""],
+      inputSocial: [],
       inputGender: "",
       nameRules: [(v) => !!v || "Name is required"],
       emailRules: [
@@ -123,9 +124,9 @@ export default {
         (v) => /.+@.+\..+/.test(v) || "Email must be valid",
       ],
       ageRules: [(v) => !!v || "Age is required"],
-      select: null,
+      socialRules: [(v) => !!v || "Social is required"],
+      genderRules: [(v) => !!v || "Gender is required"],
       items: ["Argentina", "Uruwhy", "Brasil"],
-      checkbox: false,
       users: [
         {
           name: "",
@@ -206,7 +207,6 @@ span {
 }
 .btn-primary {
   height: 32px;
-  padding: 2px;
   border: none;
   background-color: #4834d4 !important;
   color: white !important;
@@ -214,14 +214,7 @@ span {
   align-items: center !important;
   justify-content: center !important;
   min-width: 30% !important;
-  margin-top: 20px;
-  text-align: center;
+  text-align: center !important;
   align-self: end;
-}
-.sm-box {
-  display: flex;
-  align-items: center;
-  width: 70%;
-  margin: auto;
 }
 </style>
