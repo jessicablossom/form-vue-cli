@@ -1,68 +1,78 @@
 <template>
-  <div id="app">
-    <vue-form :state="formstate" @submit.prevent="onSubmit" class="form">
-      <validate tag="label">
-        <span>* Name: </span>
-        <input v-model="inputName" required name="name" />
-        <field-messages name="name">
-          <div>That's Correct!</div>
-          <div slot="required">Name is a mandatory field</div>
-        </field-messages>
-      </validate>
+  <v-app>
+    <v-app-bar app color="#4834d4" dark>
+      <h1>Form</h1>
+    </v-app-bar>
 
-      <span>Email: </span>
-      <input v-model="inputEmail" type="text" />
-      <span>Age:</span>
-      <input v-model.number="inputAge" type="number" />
-      <span>Country:</span>
-      <select
-        v-model="inputCountry"
-        class="input-select"
-        aria-label="Default select example"
+    <v-main>
+      <v-form
+        ref="login"
+        v-model="valid"
+        class="form"
+        v-on:submit.prevent="onSubmit"
       >
-        <option selected></option>
-        <option value="Argentina">Argentina</option>
-        <option value="Uruwhy">Uruwhy</option>
-        <option value="Brasil">Brasil</option>
-      </select>
-      <span>What social media do you have?</span>
-      <span class="sm-box">
-        <input v-model="inputSocial" value="Facebook" type="checkbox" />Facebook
-        <input
-          v-model="inputSocial"
-          value="Instagram"
-          type="checkbox"
-        />Instagram
-        <input v-model="inputSocial" value="Twitter" type="checkbox" />Twitter
-      </span>
-      <span>What is your gender?</span>
-      <span class="sm-box">
-        <input
-          v-model="inputGender"
-          type="radio"
-          name="gender"
-          value="male"
-        />Male
-        <input
-          v-model="inputGender"
-          type="radio"
-          name="gender"
-          value="female"
-        />Female
-        <input
-          v-model="inputGender"
-          type="radio"
-          name="gender"
-          value="rathernosay"
-        />Rather no say
-      </span>
-      <input
-        type="submit"
-        value="Submit"
-        @click="onSubmit"
-        class="btn-primary"
-      />
-    </vue-form>
+        <v-container>
+          <v-text-field
+            v-model="inputName"
+            :rules="nameRules"
+            label="Name"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="inputEmail"
+            :rules="emailRules"
+            label="Email"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model.number="inputAge"
+            :rules="ageRules"
+            label="Age"
+            required
+          ></v-text-field>
+          <v-select
+            class="input-select"
+            v-model="inputCountry"
+            :items="items"
+            :rules="[(v) => !!v || 'Country is required']"
+            label="Country"
+            required
+          ></v-select>
+          <span>What is your social media?</span>
+          <v-row>
+            <v-checkbox
+              v-model="inputSocial"
+              :rules="[(v) => !!v || 'Must select one!']"
+              label="Facebook"
+              required
+            ></v-checkbox>
+            <v-checkbox
+              v-model="inputSocial"
+              :rules="[(v) => !!v || 'Must select one!']"
+              label="Instagram"
+              required
+            ></v-checkbox>
+            <v-checkbox
+              v-model="inputSocial"
+              :rules="[(v) => !!v || 'Must select one!']"
+              label="Twitter"
+              required
+            ></v-checkbox>
+          </v-row>
+          <span>What is your gender?</span>
+          <v-row>
+            <v-radio-group v-model="inputGender" required>
+              <v-radio value="male" label="Male" />
+              <v-radio value="female" label="Female" />
+              <v-radio value="rathernosay" label="Rather not say" />
+            </v-radio-group>
+          </v-row>
+
+          <v-btn @click="onSubmit" class="btn-primary">Submit</v-btn>
+        </v-container>
+      </v-form>
+    </v-main>
+
     <div>
       <div class="table">
         <h3>Info</h3>
@@ -90,7 +100,7 @@
         </table>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -100,23 +110,22 @@ export default {
 
   data() {
     return {
-      formstate: {
-        $error: {
-          // errors
-        },
-        $submittedState: {
-          // form sent
-        },
-      },
-      model: {
-        inputName: "",
-        inputEmail: "",
-        inputAge: "",
-        inputCountry: "",
-        inputSocial: [],
-        inputGender: "",
-      },
-
+      valid: false,
+      inputName: "",
+      inputEmail: "",
+      inputAge: "",
+      inputCountry: "",
+      inputSocial: [""],
+      inputGender: "",
+      nameRules: [(v) => !!v || "Name is required"],
+      emailRules: [
+        (v) => !!v || "Email is required",
+        (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+      ],
+      ageRules: [(v) => !!v || "Age is required"],
+      select: null,
+      items: ["Argentina", "Uruwhy", "Brasil"],
+      checkbox: false,
       users: [
         {
           name: "",
@@ -130,11 +139,8 @@ export default {
     };
   },
   methods: {
-    onSubmit: function () {
-      if (this.formstate.$invalid) {
-        // alert errors
-        return;
-      }
+    onSubmit() {
+      this.$ref.login.validate();
       const newInfo = {
         name: this.inputName,
         email: this.inputEmail,
@@ -202,14 +208,12 @@ span {
   height: 32px;
   padding: 2px;
   border: none;
-  background-color: #4834d4;
-  color: white;
-  font-weight: bolder;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 30%;
+  background-color: #4834d4 !important;
+  color: white !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 30% !important;
   margin-top: 20px;
   text-align: center;
   align-self: end;
