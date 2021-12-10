@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <form class="form">
-      <span>Name: </span>
-      <input v-model="inputName" type="text" />
+    <vue-form :state="formstate" @submit.prevent="onSubmit" class="form">
+      <validate tag="label">
+        <span>* Name: </span>
+        <input v-model="inputName" required name="name" />
+        <field-messages name="name">
+          <div>That's Correct!</div>
+          <div slot="required">Name is a mandatory field</div>
+        </field-messages>
+      </validate>
+
       <span>Email: </span>
       <input v-model="inputEmail" type="text" />
       <span>Age:</span>
-      <input v-model="inputAge" type="number" />
+      <input v-model.number="inputAge" type="number" />
       <span>Country:</span>
       <select
         v-model="inputCountry"
@@ -18,7 +25,6 @@
         <option value="Uruwhy">Uruwhy</option>
         <option value="Brasil">Brasil</option>
       </select>
-
       <span>What social media do you have?</span>
       <span class="sm-box">
         <input v-model="inputSocial" value="Facebook" type="checkbox" />Facebook
@@ -50,8 +56,13 @@
           value="rathernosay"
         />Rather no say
       </span>
-      <submit @click="addUser" class="btn-primary">Submit</submit>
-    </form>
+      <input
+        type="submit"
+        value="Submit"
+        @click="onSubmit"
+        class="btn-primary"
+      />
+    </vue-form>
     <div>
       <div class="table">
         <h3>Info</h3>
@@ -89,12 +100,22 @@ export default {
 
   data() {
     return {
-      inputName: "",
-      inputEmail: "",
-      inputAge: "",
-      inputCountry: "",
-      inputSocial: [],
-      inputGender: "",
+      formstate: {
+        $error: {
+          // errors
+        },
+        $submittedState: {
+          // form sent
+        },
+      },
+      model: {
+        inputName: "",
+        inputEmail: "",
+        inputAge: "",
+        inputCountry: "",
+        inputSocial: [],
+        inputGender: "",
+      },
 
       users: [
         {
@@ -109,8 +130,11 @@ export default {
     };
   },
   methods: {
-    addUser(event) {
-      event.preventDefault();
+    onSubmit: function () {
+      if (this.formstate.$invalid) {
+        // alert errors
+        return;
+      }
       const newInfo = {
         name: this.inputName,
         email: this.inputEmail,
@@ -185,8 +209,9 @@ span {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 50%;
+  min-width: 30%;
   margin-top: 20px;
+  text-align: center;
   align-self: end;
 }
 .sm-box {
