@@ -28,16 +28,6 @@
 export default {
   name: "TableData",
   props: ["user"],
-  users: [
-    {
-      name: "",
-      email: "",
-      age: "",
-      country: "",
-      social: [],
-      gender: "",
-    },
-  ],
 };
 </script>
 

@@ -53,7 +53,6 @@
 <script>
 export default {
   name: "form",
-  props: ["users"],
   data() {
     return {
       valid: false,
