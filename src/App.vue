@@ -2,24 +2,20 @@
   <v-app>
     <v-app-bar class="navbar" app color="#4834d4" dark>
       <h1>VUE Cli Form</h1>
-      <v-p>Jessica Francavilla</v-p>
+      <p>Jessica Francavilla</p>
     </v-app-bar>
     <v-main>
-      <Form />
-      <div>
-        <TableData />
-      </div>
+      <UserForm />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import TableData from "./components/TableData.vue";
-import Form from "./components/Form.vue";
+import UserForm from "./components/UserForm.vue";
 
 export default {
   name: "App",
-  components: { TableData, Form },
+  components: { UserForm },
 };
 </script>
 

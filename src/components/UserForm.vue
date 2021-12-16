@@ -1,58 +1,64 @@
 <template>
-  <v-form
-    ref="login"
-    v-model="valid"
-    class="form"
-    v-on:submit.prevent="onSubmit"
-  >
-    <v-container>
-      <v-text-field
-        v-model="inputName"
-        :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model="inputEmail"
-        :rules="emailRules"
-        label="Email"
-        required
-      ></v-text-field>
-      <v-text-field
-        v-model.number="inputAge"
-        :rules="ageRules"
-        label="Age"
-        required
-      ></v-text-field>
-      <v-select
-        class="input-select"
-        v-model="inputCountry"
-        :items="items"
-        :rules="countryRules"
-        label="Country"
-        required
-      ></v-select>
-      <span class="margin-top">What is your gender?</span>
-      <v-row>
-        <v-radio-group v-model="inputGender" :rules="genderRules" required>
-          <v-radio value="male" label="Male" />
-          <v-radio value="female" label="Female" />
-          <v-radio value="rathernosay" label="Rather not say" />
-        </v-radio-group>
-      </v-row>
+  <div>
+    <v-form
+      ref="login"
+      v-model="valid"
+      class="form-box"
+      v-on:submit.prevent="onSubmit"
+    >
+      <v-container>
+        <v-text-field
+          v-model="inputName"
+          :rules="nameRules"
+          label="Name"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="inputEmail"
+          :rules="emailRules"
+          label="Email"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model.number="inputAge"
+          :rules="ageRules"
+          label="Age"
+          required
+        ></v-text-field>
+        <v-select
+          class="input-select"
+          v-model="inputCountry"
+          :items="items"
+          :rules="countryRules"
+          label="Country"
+          required
+        ></v-select>
+        <span class="margin-top">What is your gender?</span>
+        <v-row>
+          <v-radio-group v-model="inputGender" :rules="genderRules" required>
+            <v-radio value="male" label="Male" />
+            <v-radio value="female" label="Female" />
+            <v-radio value="rathernosay" label="Rather not say" />
+          </v-radio-group>
+        </v-row>
 
-      <v-btn
-        @click="onSubmit"
-        class="d-flex align-center justify-center btn-primary"
-        >Submit</v-btn
-      >
-    </v-container>
-  </v-form>
+        <v-btn
+          @click="onSubmit"
+          class="d-flex align-center justify-center btn-primary"
+          >Submit</v-btn
+        >
+      </v-container>
+    </v-form>
+    <TableData :users="users" />
+  </div>
 </template>
 
 <script>
+import TableData from "./TableData.vue";
+
 export default {
-  name: "form",
+  name: "UserForm",
+  components: { TableData },
   data() {
     return {
       valid: false,
@@ -101,6 +107,7 @@ export default {
           gender: this.inputGender,
         };
         this.users.push(newInfo);
+        this.$refs.login.reset();
       }
     },
   },
@@ -129,7 +136,7 @@ span {
   margin-top: 40px;
 }
 
-.form {
+.form-box {
   padding: 25px;
   background-color: #c7ecee;
   display: flex;

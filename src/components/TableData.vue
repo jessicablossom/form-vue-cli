@@ -27,7 +27,7 @@
 <script>
 export default {
   name: "TableData",
-  props: ["user"],
+  props: ["users"],
 };
 </script>
 
