@@ -1,33 +1,38 @@
 <template>
   <div class="table">
     <h1 class="margin-top">Info</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Age</th>
-          <th>Country</th>
-          <th>Gender</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(user, i) in users" :key="i">
-          <th>{{ user.name }}</th>
-          <th>{{ user.email }}</th>
-          <th>{{ user.age }}</th>
-          <th>{{ user.country }}</th>
-          <th>{{ user.gender }}</th>
-        </tr>
-      </tbody>
-    </table>
+    <v-data-table class="table" :headers="formUsersHeaders" :items="users">
+    </v-data-table>
   </div>
 </template>
 
 <script>
 export default {
   name: "TableData",
-  props: ["users"],
+  data() {
+    return {
+      users: [],
+      formUsersHeaders: [
+        { text: "First Name", value: "inputName" },
+        { text: "E-mail", value: "inputEmail" },
+        { text: "Age", value: "inputAge" },
+        { text: "Country", value: "inputCountry" },
+        { text: "Gender", value: "inputGender" },
+      ],
+    };
+  },
+  methods: {
+    getUsers() {
+      fetch("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users")
+        .then((res) => res.json())
+        .then((data) => {
+          this.users = data;
+        });
+    },
+  },
+  mounted() {
+    this.getUsers();
+  },
 };
 </script>
 
@@ -41,10 +46,9 @@ export default {
   color: #2c3e50;
   top: -50px;
 }
-
 .table thead {
-  background-color: #4834d4;
-  color: white;
+  background-color: #4834d4 !important;
+  color: white !important;
 }
 .table tbody {
   background-color: #c7ecee;

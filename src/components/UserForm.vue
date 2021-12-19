@@ -8,26 +8,26 @@
     >
       <v-container>
         <v-text-field
-          v-model="inputName"
+          v-model="newUser.inputName"
           :rules="nameRules"
           label="Name"
           required
         ></v-text-field>
         <v-text-field
-          v-model="inputEmail"
+          v-model="newUser.inputEmail"
           :rules="emailRules"
           label="Email"
           required
         ></v-text-field>
         <v-text-field
-          v-model.number="inputAge"
+          v-model.number="newUser.inputAge"
           :rules="ageRules"
           label="Age"
           required
         ></v-text-field>
         <v-select
           class="input-select"
-          v-model="inputCountry"
+          v-model="newUser.inputCountry"
           :items="items"
           :rules="countryRules"
           label="Country"
@@ -35,7 +35,11 @@
         ></v-select>
         <span class="margin-top">What is your gender?</span>
         <v-row>
-          <v-radio-group v-model="inputGender" :rules="genderRules" required>
+          <v-radio-group
+            v-model="newUser.inputGender"
+            :rules="genderRules"
+            required
+          >
             <v-radio value="male" label="Male" />
             <v-radio value="female" label="Female" />
             <v-radio value="rathernosay" label="Rather not say" />
@@ -43,7 +47,8 @@
         </v-row>
 
         <v-btn
-          @click="onSubmit"
+          block
+          @click="addUser"
           class="d-flex align-center justify-center btn-primary"
           >Submit</v-btn
         >
@@ -64,11 +69,13 @@ export default {
       valid: false,
       select: null,
       checkbox: false,
-      inputName: "",
-      inputEmail: "",
-      inputAge: "",
-      inputCountry: "",
-      inputGender: "",
+      newUser: {
+        inputName: "",
+        inputEmail: "",
+        inputAge: "",
+        inputCountry: "",
+        inputGender: "",
+      },
       nameRules: [(v) => !!v || "Name is required"],
       emailRules: [
         (v) => !!v || "Email is required",
@@ -82,32 +89,25 @@ export default {
       genderRules: [(v) => !!v || "Gender is required"],
       items: ["Argentina", "Uruwhy", "Brasil", "Chile"],
       // eslint-disable-next-line vue/no-dupe-keys
-      users: [
-        {
-          name: "",
-          email: "",
-          age: "",
-          country: "",
-          social: [],
-          gender: "",
-        },
-      ],
     };
   },
   methods: {
-    onSubmit() {
+    addUser() {
       this.$refs.login.validate();
       if (this.valid) {
-        const newInfo = {
-          name: this.inputName,
-          email: this.inputEmail,
-          age: this.inputAge,
-          country: this.inputCountry,
-          social: this.inputSocial,
-          gender: this.inputGender,
+        const header = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(this.newUser),
         };
-        this.users.push(newInfo);
-        this.$refs.login.reset();
+        fetch("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users", header)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("Created User:", data);
+            return this.getUsers(data);
+          });
       }
     },
   },
