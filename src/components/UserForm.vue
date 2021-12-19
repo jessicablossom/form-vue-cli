@@ -93,19 +93,16 @@ export default {
   },
   methods: {
     addUser() {
+      const axios = require("axios");
+
       this.$refs.login.validate();
       if (this.valid) {
-        const header = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.newUser),
-        };
-        fetch("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users", header)
-          .then((res) => res.json())
+        axios
+          .post(
+            "https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users",
+            this.newUser
+          )
           .then((data) => {
-            console.log("Created User:", data);
             return this.getUsers(data);
           });
       }

@@ -23,10 +23,12 @@ export default {
   },
   methods: {
     getUsers() {
-      fetch("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users")
-        .then((res) => res.json())
+      const axios = require("axios");
+
+      axios
+        .get("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users")
         .then((data) => {
-          this.users = data;
+          this.users = data.data;
         });
     },
   },
