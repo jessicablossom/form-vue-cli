@@ -7,13 +7,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "TableData",
+
   data() {
     return {
-      users: [],
       formUsersHeaders: [
-        { text: "First Name", value: "inputName" },
+        { text: "First Name", value: "this.store.users.inputName" },
         { text: "E-mail", value: "inputEmail" },
         { text: "Age", value: "inputAge" },
         { text: "Country", value: "inputCountry" },
@@ -21,19 +22,12 @@ export default {
       ],
     };
   },
-  methods: {
-    getUsers() {
-      const axios = require("axios");
-
-      axios
-        .get("https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users")
-        .then((data) => {
-          this.users = data.data;
-        });
-    },
+  computed: {
+    ...mapGetters(["users"]),
   },
   mounted() {
-    this.getUsers();
+    console.log("hola");
+    this.$store.dispatch("getUsers");
   },
 };
 </script>

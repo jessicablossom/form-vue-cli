@@ -11,11 +11,18 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import UserForm from "./components/UserForm.vue";
 
 export default {
   name: "App",
   components: { UserForm },
+  computed: {
+    ...mapGetters(["users"]),
+  },
+  mounted() {
+    this.$store.dispatch("getUsers");
+  },
 };
 </script>
 

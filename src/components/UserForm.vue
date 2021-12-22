@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import TableData from "./TableData.vue";
 
 export default {
@@ -93,8 +94,6 @@ export default {
   },
   methods: {
     addUser() {
-      const axios = require("axios");
-
       this.$refs.login.validate();
       if (this.valid) {
         axios
