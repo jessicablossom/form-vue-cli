@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       formUsersHeaders: [
-        { text: "First Name", value: "this.store.users.inputName" },
+        { text: "First Name", value: "inputName" },
         { text: "E-mail", value: "inputEmail" },
         { text: "Age", value: "inputAge" },
         { text: "Country", value: "inputCountry" },
@@ -26,7 +26,6 @@ export default {
     ...mapGetters(["users"]),
   },
   mounted() {
-    console.log("hola");
     this.$store.dispatch("getUsers");
   },
 };

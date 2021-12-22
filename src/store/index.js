@@ -28,7 +28,7 @@ export default new Vuex.Store({
           context.commit("USERS", data.data);
         });
     },
-    saveUsers() {
+    addUser() {
       axios
         .post(
           "https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users",
