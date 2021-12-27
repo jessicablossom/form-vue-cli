@@ -7,9 +7,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "TableData",
+  props: {
+    users: Array,
+  },
 
   data() {
     return {
@@ -21,9 +23,6 @@ export default {
         { text: "Gender", value: "inputGender" },
       ],
     };
-  },
-  computed: {
-    ...mapGetters(["users"]),
   },
   mounted() {
     this.$store.dispatch("getUsers");

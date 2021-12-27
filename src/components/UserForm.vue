@@ -48,18 +48,17 @@
 
         <v-btn
           block
-          @click="addUser"
+          @click="validate"
           class="d-flex align-center justify-center btn-primary"
           >Submit</v-btn
         >
       </v-container>
     </v-form>
-    <TableData :users="users" />
+    <TableData :users="getUsers" />
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import TableData from "./TableData.vue";
 
 export default {
@@ -93,19 +92,26 @@ export default {
     };
   },
   methods: {
-    addUser() {
-      this.$refs.login.validate();
-      if (this.valid) {
-        axios
-          .post(
-            "https://61b8f28f38f69a0017ce5e38.mockapi.io/form_users",
-            this.newUser
-          )
-          .then((data) => {
-            return this.getUsers(data);
-          });
+    validate() {
+      if (this.$refs.login.validate()) {
+        let dataForm = {
+          inputName: this.inputName,
+          inputEmail: this.inputEmail,
+          inputAge: this.inputAge,
+          inputCountry: this.inputCountry,
+          inputGender: this.inputGender,
+        };
+        this.$store.dispatch("addUser", dataForm);
       }
     },
+  },
+  computed: {
+    getUsers() {
+      return this.$store.state.users;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("getUsers");
   },
 };
 </script>
