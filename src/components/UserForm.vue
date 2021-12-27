@@ -8,26 +8,26 @@
     >
       <v-container>
         <v-text-field
-          v-model="newUser.inputName"
+          v-model="inputName"
           :rules="nameRules"
           label="Name"
           required
         ></v-text-field>
         <v-text-field
-          v-model="newUser.inputEmail"
+          v-model="inputEmail"
           :rules="emailRules"
           label="Email"
           required
         ></v-text-field>
         <v-text-field
-          v-model.number="newUser.inputAge"
+          v-model.number="inputAge"
           :rules="ageRules"
           label="Age"
           required
         ></v-text-field>
         <v-select
           class="input-select"
-          v-model="newUser.inputCountry"
+          v-model="inputCountry"
           :items="items"
           :rules="countryRules"
           label="Country"
@@ -35,11 +35,7 @@
         ></v-select>
         <span class="margin-top">What is your gender?</span>
         <v-row>
-          <v-radio-group
-            v-model="newUser.inputGender"
-            :rules="genderRules"
-            required
-          >
+          <v-radio-group v-model="inputGender" :rules="genderRules" required>
             <v-radio value="male" label="Male" />
             <v-radio value="female" label="Female" />
             <v-radio value="rathernosay" label="Rather not say" />

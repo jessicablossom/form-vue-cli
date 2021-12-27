@@ -36,8 +36,5 @@ export default new Vuex.Store({
         });
     },
   },
-  getters: {
-    users: (state) => state.users,
-  },
   modules: {},
 });
